@@ -192,8 +192,8 @@ function init() {
         TweenMax.to($(this).find('.highlight'), .34, {opacity: 0, ease: Sine.easeOut});
     });
 
-    $('#mic').click(micMode);
-    $('#play').click(playMode);
+    $('#mic').click(function () {useSettings('mic')});
+    $('#play').click(function () {useSettings(playlist[playlistIdx])});
 
     $('#btn-left').click(function () {
 
@@ -370,11 +370,12 @@ function micMode() {
 }
 
 function micStop() {
-console.log('micStop')
+
     if(micStream) {
-console.log('micStoped')
-        // micStream.mediaStream.stop();
+
+        micStream.mediaStream.stop();
         micStream.disconnect();
+        micStream = undefined;
     }
 }
 
