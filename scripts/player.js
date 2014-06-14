@@ -717,12 +717,16 @@ function playTrack(track) {
 
             loadTrack(track.url, function (buff) {
 
+            track.onLoad = false;
+
                 track.buff = buff;
 
                 if (currLoadingTrack === track) {
 
                     playTrack(track);
                 }
+
+                currLoadingTrack = undefined;
             });
         }
 
@@ -772,10 +776,13 @@ function animPlayProgress() {
         useSettings(playlist[(++playlistIdx) % playlist.length])
     }
 
-    timeCurr = ~~(timeCurr/1000);
-    var min = ('0' + parseInt(timeCurr / 60)).substr(-2);
-    var sec = ('0' + (timeCurr % 60)).substr(-2);
-    $('#text-time').text(min+':'+sec);
+    if (!currLoadingTrack) {
+
+        timeCurr = ~~(timeCurr/1000);
+        var min = ('0' + parseInt(timeCurr / 60)).substr(-2);
+        var sec = ('0' + (timeCurr % 60)).substr(-2);
+        $('#text-time').text(min+':'+sec);
+    }
 
     if (!isSeeking) {
 
