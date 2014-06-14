@@ -178,11 +178,12 @@ function init() {
 
                 useSettings(settings);
             }
+            else {
+                useSettings(playlist[0]);
+            }
         }
 
         window.onhashchange();
-
-        useSettings(playlist[0]);
     }
 
     $('.control').mouseenter(function () {
@@ -334,6 +335,11 @@ function micMode() {
     console.log('start mic')
 
     function gotStream(mediaStream) {
+
+        if (mode !== 'mic') {
+            return;
+        }
+
         micStream = actx.createMediaStreamSource(mediaStream);
         // micStream.mediaStream = mediaStream;
         startMic();
@@ -700,7 +706,8 @@ function playTrack(track) {
 
     if (!track.buff) {
 
-        $('#text-time').text('loadig...');
+        window.cancelAnimationFrame(animPlayProgress);
+        $('#text-time').text('loading...');
 
         if (!track.onLoad) {
 
