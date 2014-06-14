@@ -1,0 +1,9 @@
+
+@font-face {
+	font-family: 'DINNextLTPro-Regular';
+	src: url('DINNextLTPro-Regular.eot?') format('eot'), 
+	     url('DINNextLTPro-Regular.otf')  format('opentype'),
+	     url('DINNextLTPro-Regular.woff') format('woff'), 
+	     url('DINNextLTPro-Regular.ttf')  format('truetype'),
+	     url('DINNextLTPro-Regular.svg#DINNextLTPro-Regular') format('svg');
+}

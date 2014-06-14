@@ -1,0 +1,222 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>lamantin</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/DINNextLTPro-Italic/styles.css">
+        <link rel="stylesheet" href="styles/DINNextLTPro-Regular/styles.css">
+        <!-- endbuild -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Split button -->
+
+        <!-- Button trigger modal -->
+        <!--button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-settings" style='position:absolute;z-index:99;'>
+          Settings
+        </button-->
+
+        <div id="middle-cont">
+
+          <canvas id="canvas-stage" width="822" height="330"></canvas>
+
+          <img id="jazzfesztival" src="assets/img/jazz_fesztival.png">
+
+          <div id="controls-cont">
+            <div class="control" id="play">
+              <img class="bg inactive" src="assets/img/bg_play_i.png">
+              <img class="bg highlight" src="assets/img/bg_play_h.png">
+              <img class="bg active" src="assets/img/bg_play_a.png">
+              <div class="btn" id="btn-left">
+                <img class="bg inactive" src="assets/img/left_i.png">
+                <img class="bg highlight" src="assets/img/left_n.png">
+                <img class="bg active" src="assets/img/left_n.png">
+                <img class="bg over" src="assets/img/left_h.png">
+              </div>
+              <div class="btn" id="btn-right">
+                <img class="bg inactive" src="assets/img/right_i.png">
+                <img class="bg highlight" src="assets/img/right_n.png">
+                <img class="bg active" src="assets/img/right_n.png">
+                <img class="bg over" src="assets/img/right_h.png">
+              </div>
+              <div id="text-track"></div>
+              <div id="text-time"></div>
+              <div id="progressbar-bg" class="progressbar"></div>
+              <div id="progressbar-state" class="progressbar"></div>
+              <div id="progressbar-hit" class="progressbar"></div>
+            </div>
+            <div class="control" id="mic">
+              <img class="bg inactive" src="assets/img/bg_mic_i.png">
+              <img class="bg highlight" src="assets/img/bg_mic_h.png">
+              <img class="bg active" src="assets/img/bg_mic_a.png">
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal-settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="btn-group">
+                      <button  type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        <span id='settings-title'>Settings</span>
+                        <span class="caret"></span>
+                      </button>
+                      <ul id="settings-list" class="dropdown-menu" role="menu">
+                        <li class="divider"></li>
+                        <li id='save' data-toggle="modal" data-target="#save-settings"><a>save settings</a></li>
+                        <li id='delete' data-toggle="modal"><a>delete settings</a></li>
+                      </ul>
+                    </div>
+                <h4 class="modal-title" id="myModalLabel">
+                </h4>
+                <!-- <div class="input-box alert well-sm"> -->
+                <!-- </div> -->
+              </div>
+              <div class="modal-body">
+
+
+                <div id="select-word" class="input-box alert well-sm alert-info">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Words <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                      </ul>
+                    </div>
+                </div>
+                <div id="select-track" class="input-box alert well-sm alert-info">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Tracks <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                      </ul>
+                    </div>
+                    <button id="track-btn-play" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </button>
+                    <button id="track-btn-stop" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-stop"></span>
+                    </button>
+                </div>
+                <div class="input-box alert well-sm">
+                    <button id="btn-mic" type="button" class="btn btn-danger">MIC</button>
+                    <button id="btn-mic-stop" type="button" class="btn btn-default">stop</button>
+                </div>
+                <canvas id='canvas-preview' width="512" height="256" style="background-color: #d9edf7;"></canvas>
+                <form class="form-horizontal" role="form">
+                    <div id="controls" class="well well-sm">
+
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div id="modal-login" class="modal fade">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">login</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <input id="input-pwd"  class="form-control" type="password" placeholder="password">
+                  </div>
+                  <button id="btn-ok" type="button" class="btn btn-primary" data-dismiss="modal">send</button>
+                </div>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div id="save-settings" class="modal fade">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">save settings</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="input-id" class="col-sm-2 control-label">id</label>
+                    <input id="input-id"  class="form-control" type="text" placeholder="valami nev, pl: 'settings_3'">
+                  </div>
+                  <button id="btn-ok" type="button" class="btn btn-primary" data-dismiss="modal">ok</button>
+                </form>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/jquery.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+
+        <!-- build:js scripts/plugins.js -->
+        <script src="bower_components/bootstrap/js/affix.js"></script>
+        <script src="bower_components/bootstrap/js/alert.js"></script>
+        <script src="bower_components/bootstrap/js/dropdown.js"></script>
+        <script src="bower_components/bootstrap/js/tooltip.js"></script>
+        <script src="bower_components/bootstrap/js/modal.js"></script>
+        <script src="bower_components/bootstrap/js/transition.js"></script>
+        <script src="bower_components/bootstrap/js/button.js"></script>
+        <script src="bower_components/bootstrap/js/popover.js"></script>
+        <script src="bower_components/bootstrap/js/carousel.js"></script>
+        <script src="bower_components/bootstrap/js/scrollspy.js"></script>
+        <script src="bower_components/bootstrap/js/collapse.js"></script>
+        <script src="bower_components/bootstrap/js/tab.js"></script>
+        <script src="bower_components/greensock/src/minified/TweenMax.min.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/player.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

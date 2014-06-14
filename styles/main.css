@@ -1,0 +1,109 @@
+html, body{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
+}
+
+#controls-cont{
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    bottom: 89px;
+}
+
+#controls-cont .bg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.control {
+    position: absolute;
+    width: 355px;
+}
+
+.control .active,.control .highlight,.btn .over{
+    opacity: 0;
+}
+
+#mic {
+    right: 0px;
+}
+
+#play {
+    height: 63px;
+}
+
+.control .btn {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+}
+
+#btn-right{
+    left: 60px;
+}
+
+#text-track{
+    position: absolute;
+    font-family: DINNextLTPro-Italic;
+    font-size: 12px;
+    color: #000;
+    left: 135px;
+    top: 11px;
+    opacity: 1;
+}
+
+#text-time{
+    position: absolute;
+    font-family: DINNextLTPro-Regular;
+    font-size: 14px;
+    color: #fff;
+    left: 135px;
+    top: 35px;
+}
+
+.progressbar{
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 0px;
+    background-color: #cbd4bd
+}
+
+#progressbar-state{
+    width: 0%
+}
+
+#progressbar-hit{
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    bottom: -1px;
+    cursor: pointer;
+    opacity: 0
+}
+
+#jazzfesztival{
+    position: absolute;
+    top: calc(23% + 170px);
+}
+
+#middle-cont{
+    position: absolute;
+    width: 722px;
+    height: 100%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+#canvas-stage{
+    left: -50px;
+    position: absolute;
+    top: 23%;
+}

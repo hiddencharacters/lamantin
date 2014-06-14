@@ -1,0 +1,15 @@
+{
+  "name": "opentype.js",
+  "homepage": "https://github.com/nodebox/opentype.js",
+  "version": "0.2.0",
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.2.0",
+    "commit": "a775027c27edd491b0a0873f9aead9927bc0d1b9"
+  },
+  "_source": "git://github.com/nodebox/opentype.js.git",
+  "_target": "~0.2.0",
+  "_originalSource": "opentype.js",
+  "_direct": true
+}
