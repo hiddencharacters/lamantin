@@ -45,6 +45,27 @@ $(document).ready(function () {
     });
 });
 
+function resetAnalyser() {
+
+    if (gainOut) {
+
+        gainOut.disconnect();
+    }
+    gainOut = actx.createGain();
+    gainOut.gain.value = 1;
+    gainOut.connect(actx.destination);
+
+    if (analyser) {
+        analyser.disconnect();
+    }
+
+    analyser = actx.createAnalyser();
+    analyser.connect(gainOut);
+    analyser.smoothingTimeConstant = options.smoothingTimeConstant;
+    analyser.minDecibels = options.minDecibels;
+    analyser.maxDecibels = options.maxDecibels;
+}
+
 function init() {
 
     makeRange('title', options.title, 'title', 1111, .01, function (v) {options.title = v}, 'text');
@@ -54,13 +75,9 @@ function init() {
     makeRange('renderX', options.renderX, 0, 1111, .01, function (v) {options.renderX = v});
     makeRange('renderY', options.renderY, 0, 1111, .01, function (v) {options.renderY = v});
 
-    gainOut = actx.createGain();
-    gainOut.gain.value = 1;
-    gainOut.connect(actx.destination);
-    makeRange('gainOut', options.gainOut, 0, 1, .01, function (v) {options.gainOut = v})
+    resetAnalyser();
+    makeRange('gainOut', options.gain, 0, 1, .01, function (v) {options.gain = v})
 
-    analyser = actx.createAnalyser();
-    analyser.connect(gainOut);
     makeRange('smoothingTimeConstant', options.smoothingTimeConstant, 0, 1, .01, function (v) {options.smoothingTimeConstant = v})
     makeRange('minDecibels', options.minDecibels, +3000, 4000, 1, function (v) {options.minDecibels = v});
     makeRange('maxDecibels', options.maxDecibels, -3000, 4000, 1, function (v) {options.maxDecibels = v});
@@ -347,6 +364,7 @@ function micMode() {
 
     function startMic() {
 
+        resetAnalyser();
         micStream.connect(analyser);
         analyser.connect(gainOut);
         gainOut.connect(actx.destination);
@@ -399,14 +417,6 @@ function playMode() {
 
     $('#controls-cont .btn').on('mouseenter', onOverControlBtn);
     $('#controls-cont .btn').on('mouseleave', onOutControlBtn);
-
-    // if (aSource) {
-    //     var source = actx.createBufferSource();
-    //     source.buffer = aSource.buffer;
-    //     source.connect(analyser);
-    //     source.start(0);
-    //     aSource = source;
-    // }
 }
 
 function playStop() {
@@ -701,6 +711,7 @@ function playTrack(track) {
 
     if (aSource) {
         aSource.stop(0);
+        aSource.disconnect();
         aSource = undefined;
     }
 
@@ -739,6 +750,7 @@ function playTrack(track) {
 
     aSource = actx.createBufferSource();
     aSource.buffer = aTrack.buff;
+    resetAnalyser()
     aSource.connect(analyser);
     timeStartTrack = +new Date();
     aSource.start(0);
@@ -755,8 +767,10 @@ function seekTrack(percent) {
     percent = Math.max(0, Math.min(1, percent));
 
     aSource.stop(0);
+    aSource.disconnect();
     aSource = actx.createBufferSource();
     aSource.buffer = aTrack.buff;
+    resetAnalyser();
     aSource.connect(analyser);
     var offset = aTrack.buff.duration * percent;
     timeStartTrack = +new Date() - (offset * 1000);
