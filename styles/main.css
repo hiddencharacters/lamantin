@@ -91,6 +91,7 @@ html, body{
 #jazzfesztival{
     position: absolute;
     top: calc(23% + 170px);
+    width: 355px;
 }
 
 #middle-cont{
