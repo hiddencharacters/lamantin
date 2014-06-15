@@ -47,6 +47,8 @@ $(document).ready(function () {
 
 function resetAnalyser() {
 
+    actx = new AudioContext();
+
     if (gainOut) {
 
         gainOut.disconnect();
@@ -201,6 +203,8 @@ function init() {
         }
 
         window.onhashchange();
+
+        window.requestAnimationFrame(render);
     }
 
     $('.control').mouseenter(function () {
@@ -357,39 +361,25 @@ function micMode() {
             return;
         }
 
-        micStream = actx.createMediaStreamSource(mediaStream);
-        // micStream.mediaStream = mediaStream;
-        startMic();
-    }
-
-    function startMic() {
-
         resetAnalyser();
+        micStream = actx.createMediaStreamSource(mediaStream);
         micStream.connect(analyser);
         analyser.connect(gainOut);
         gainOut.connect(actx.destination);
-        window.requestAnimationFrame(render);
     }
 
-    if (micStream) {
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
-        startMic();
+    if (navigator.getUserMedia) {
+
+        navigator.getUserMedia( {audio:true}, gotStream, function (err) {
+
+            console.log(err);
+            playMode();
+        });
     }
     else {
-
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-
-        if (navigator.getUserMedia) {
-
-            navigator.getUserMedia( {audio:true}, gotStream, function (err) {
-
-                console.log(err);
-                playMode();
-            });
-        }
-        else {
-            playMode();
-        }
+        playMode();
     }
 }
 
@@ -421,7 +411,6 @@ function playMode() {
 
 function playStop() {
 
-    window.cancelAnimationFrame(animPlayProgress);
     currLoadingTrack = undefined;
 
     if (aSource) {
@@ -472,8 +461,6 @@ function useSettings(settings) {
     $('#save-settings #input-id').val(aSettings.id);
 
     $('#settings-title').text(settings.id);
-
-    window.cancelAnimationFrame(animPlayProgress);
 
     settings.ranges.forEach(function (range) {
         options[range.name] = range.value;
@@ -717,7 +704,6 @@ function playTrack(track) {
 
     if (!track.buff) {
 
-        window.cancelAnimationFrame(animPlayProgress);
         $('#text-time').text('loading...');
 
         if (!track.onLoad) {
@@ -748,13 +734,12 @@ function playTrack(track) {
 
     aTrack = track;
 
+    resetAnalyser();
     aSource = actx.createBufferSource();
     aSource.buffer = aTrack.buff;
-    resetAnalyser()
     aSource.connect(analyser);
     timeStartTrack = +new Date();
     aSource.start(0);
-    window.requestAnimationFrame(render);
     window.requestAnimationFrame(animPlayProgress);
 }
 
@@ -766,11 +751,11 @@ function seekTrack(percent) {
 
     percent = Math.max(0, Math.min(1, percent));
 
+    resetAnalyser();
     aSource.stop(0);
     aSource.disconnect();
     aSource = actx.createBufferSource();
     aSource.buffer = aTrack.buff;
-    resetAnalyser();
     aSource.connect(analyser);
     var offset = aTrack.buff.duration * percent;
     timeStartTrack = +new Date() - (offset * 1000);
@@ -821,26 +806,15 @@ function animPlayProgress() {
 
 
 
-function fullAnim() {
 
-    aWord.wordpieceList.forEach(function (wp) {
-        wp.db = 256;
-    });
-    renderWord();
-    window.requestAnimationFrame(fullAnim);
-}
 
-function stopFullAnim() {
 
-    window.cancelAnimationFrame(fullAnim);
-}
 
 function render(){
 
+    window.requestAnimationFrame(render);
 
     var i, freqByteData, freq, count, fStep;
-
-    window.requestAnimationFrame(render);
 
     freqByteData = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(freqByteData);
