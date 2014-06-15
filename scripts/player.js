@@ -47,8 +47,6 @@ $(document).ready(function () {
 
 function resetAnalyser() {
 
-    actx = new AudioContext();
-
     if (gainOut) {
 
         gainOut.disconnect();
@@ -194,6 +192,11 @@ function init() {
             var settings = getSettings(name);
 
             if (settings) {
+
+                if (playlist.indexOf(name) !== -1) {
+
+                    playlistIdx = playlist.indexOf(name);
+                }
 
                 useSettings(settings);
             }
@@ -361,7 +364,7 @@ function micMode() {
             return;
         }
 
-        resetAnalyser();
+        // resetAnalyser();
         micStream = actx.createMediaStreamSource(mediaStream);
         micStream.connect(analyser);
         analyser.connect(gainOut);
@@ -734,7 +737,7 @@ function playTrack(track) {
 
     aTrack = track;
 
-    resetAnalyser();
+    // resetAnalyser();
     aSource = actx.createBufferSource();
     aSource.buffer = aTrack.buff;
     aSource.connect(analyser);
@@ -751,7 +754,7 @@ function seekTrack(percent) {
 
     percent = Math.max(0, Math.min(1, percent));
 
-    resetAnalyser();
+    // resetAnalyser();
     aSource.stop(0);
     aSource.disconnect();
     aSource = actx.createBufferSource();
