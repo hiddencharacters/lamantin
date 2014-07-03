@@ -1,11 +1,11 @@
 'use strict';
 
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
+window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
 var DW, actx = new AudioContext(), aSource, aTrack, tracks = [], analyser, micStream, mode = 'play',
     PI = Math.PI, PI2 = PI*2, PIp2 = PI / 2, contentW = 712,
     lastRender = +new Date, cPreview, ctxPreview, cStage, ctxStage, phpRoot = 'php/',
-    aWord, isSettingsOpen, gainOut, aSettings,
+    aWord, isSettingsOpen, gainOut, aSettings, isRecording = false,
     options = {
         title: 'title',
         artist: 'artist',
@@ -33,7 +33,6 @@ var DW, actx = new AudioContext(), aSource, aTrack, tracks = [], analyser, micSt
         'power',
         'take five'
     ], playlistIdx = 0, timeStartTrack, currLoadingTrack, tlPlayTitle, isSeeking;
-
 
 $(document).ready(function () {
 
@@ -328,6 +327,97 @@ function init() {
 
 
 
+!(function () {
+
+    var buff = [], recSetI, recRaf, timeLastRec, timeStartRec, mspf, dropped;
+
+    $('#btn-rec-start').click(function () {
+
+        if (isRecording === true) {
+            return;
+        }
+        isRecording = true;
+
+        buff.length = 0;
+        dropped = 0;
+        mspf = 1000 / parseInt($('#rec-fps').val());
+        timeStartRec = timeStartRec = window.performance.now();
+
+        // clearInterval(recSetI);
+        // recSetI = setInterval(rec, 1);
+        rec();
+    });
+
+    $('#btn-rec-stop').click(function () {
+
+        if (isRecording === false) {
+            return;
+        }
+        isRecording = false;
+
+        // clearInterval(recSetI);
+        window.cancelAnimationFrame(rec);
+
+        alert('frames:' + buff.length + ' dropped:' + dropped);
+    });
+
+    function rec() {
+
+        recRaf = window.requestAnimationFrame(rec);
+
+        var now = window.performance.now(),
+        diff = now - timeLastRec;
+
+        if (diff > 0) {
+            var str = cStage.toDataURL('image/png');
+            buff.push(str.substr(22))
+            // buff.push(new Uint8Array(ctxStage.getImageData(0, 0, cStage.width, cStage.height).data));
+        }
+
+        if (diff/mspf > 1) {
+
+            dropped += parseInt(diff/mspf);
+        }
+
+        timeLastRec = (now - (now % mspf)) + mspf;
+    }
+
+    $('#btn-rec-save').click(function () {
+
+        var zip = new JSZip();
+        // zip.file("sequence", "Hello World\n");
+        var img = zip.folder("sequence");
+
+        buff.forEach(function (imgData, idx) {
+
+            var name = ('00000000' + idx).substr(-8);
+
+            img.file(name + '.png', imgData, {base64: true});
+        })
+        var content = zip.generate({type:"blob"});
+        // see FileSaver.js
+        saveAs(content, "sequ.zip");
+    });
+}());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function readDw() {
 
     $('.dw-refresh-data').remove();
@@ -371,7 +461,7 @@ function micMode() {
         gainOut.connect(actx.destination);
     }
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
     if (navigator.getUserMedia) {
 
@@ -824,7 +914,7 @@ function render(){
     count = analyser.frequencyBinCount;
     fStep = actx.sampleRate / count;
 
-    if (isSettingsOpen) {
+    if (isSettingsOpen &&  !isRecording) {
         ctxPreview.clearRect(0, 0, cPreview.width, cPreview.height);
 
         for(i = 0; i < count; ++i) {

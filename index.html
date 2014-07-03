@@ -37,7 +37,7 @@
 
         <div id="middle-cont">
 
-          <canvas id="canvas-stage" width="822" height="330"></canvas>
+          <canvas id="canvas-stage" width="822" height="230"></canvas>
 
           <img id="jazzfesztival" src="assets/img/jazz_fesztival.png">
 
@@ -126,6 +126,15 @@
                     <button id="btn-mic" type="button" class="btn btn-danger">MIC</button>
                     <button id="btn-mic-stop" type="button" class="btn btn-default">stop</button>
                 </div>
+                <div class="input-box alert well-sm">
+                    <button id="btn-rec-start" type="button" class="btn btn-danger">REC video</button>
+                    <button id="btn-rec-stop" type="button" class="btn btn-default">stop</button>
+                    <button id="btn-rec-save" type="button" class="btn btn-default">download</button>
+                    <div class="input group"  class="btn btn-default" style="width:145px">
+                      <input id="rec-fps" type="number" value=25>
+                      <span class="postfix radius">fps</span>
+                    </div>
+                </div>
                 <canvas id='canvas-preview' width="512" height="256" style="background-color: #d9edf7;"></canvas>
                 <form class="form-horizontal" role="form">
                     <div id="controls" class="well well-sm">
@@ -213,6 +222,8 @@
         <script src="bower_components/bootstrap/js/collapse.js"></script>
         <script src="bower_components/bootstrap/js/tab.js"></script>
         <script src="bower_components/greensock/src/minified/TweenMax.min.js"></script>
+        <script src="bower_components/FileSaver.js/FileSaver.js"></script>
+        <script src="bower_components/jszip/jszip.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
