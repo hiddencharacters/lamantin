@@ -91,6 +91,16 @@ function init() {
 
     cStage = $('#canvas-stage').get(0);
     ctxStage = cStage.getContext('2d');
+    $('input#render-size-x')
+        .val(cStage.width)
+        .change(function () {cStage.width = this.value});
+
+    $('input#render-size-y')
+        .val(cStage.height)
+        .change(function () {cStage.height = this.value});
+
+    $('input#render-show-border')
+        .change(function () {cStage.style.border = this.value ? 'solid' : 'none'});
 
     DW.wordList.forEach(function (word) {
 
