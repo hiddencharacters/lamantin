@@ -15,6 +15,7 @@ var DW, actx = new AudioContext(), aSource, aTrack, tracks = [], analyser, micSt
         title: 'title',
         artist: 'artist',
         renderScale: 1,
+        globalRenderScale: 1,
         renderX: 0,
         renderY: 321,
         set gainOut(v) {gainOut.gain.value = v},
@@ -76,6 +77,7 @@ function init() {
     makeRange('artist', options.artist, 'artist', 1111, .01, function (v) {options.artist = v}, 'text');
 
     makeRange('renderScale', options.renderScale, 0, 1111, .01, function (v) {options.renderScale = v});
+    makeRange('globalRenderScale', options.globalRenderScale, 0, 1111, .01, function (v) {options.globalRenderScale = v});
     makeRange('renderX', options.renderX, 0, 1111, .01, function (v) {options.renderX = v});
     makeRange('renderY', options.renderY, 0, 1111, .01, function (v) {options.renderY = v});
 
@@ -107,7 +109,7 @@ function init() {
         .change(function () {cStage.height = this.value});
 
     $('input#render-show-border')
-        .change(function () {cStage.style.border = this.value ? 'solid' : 'none'});
+        .change(function () {cStage.style.border = this.checked ? 'solid' : 'none'});
 
 
 
@@ -1014,6 +1016,7 @@ function renderWord() {
         // console.log(pos);
 
         ctx.save();
+        ctx.scale(options.globalRenderScale, options.globalRenderScale);
         ctx.translate(wp.offX + options.renderX, wp.offY + options.renderY);
         ctx.beginPath();
 
