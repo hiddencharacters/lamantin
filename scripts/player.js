@@ -2,6 +2,11 @@
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
+if (!window.AudioContext) {
+
+    showOldBrowserWarning();
+}
+
 var DW, actx = new AudioContext(), aSource, aTrack, tracks = [], analyser, micStream, mode = 'play',
     PI = Math.PI, PI2 = PI*2, PIp2 = PI / 2, contentW = 712,
     lastRender = +new Date, cPreview, ctxPreview, cStage, ctxStage, phpRoot = 'php/',
@@ -1062,4 +1067,38 @@ function selectInput(inputBox) {
 
     $('.input-box').removeClass('.alert-info');
     $(inputBox).addClass('.alert-info');
+}
+
+
+function showOldBrowserWarning() {
+
+    var $cont = $('<div>')
+        .css({
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(255,255,255, .7)',
+            opacity: 0
+        })
+        .appendTo('body')
+        .click(function () {
+            TweenMax.to($cont, .36, {autoAlpha: 0})
+        });
+
+    var $msg = $('<img>')
+        .attr('src', 'assets/img/warning_old_browser.png')
+        .css({
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            margin: 'auto',
+            display: 'block'
+        })
+        .appendTo($cont);
+
+    TweenMax.to($cont, .36, {autoAlpha: 1})
 }
