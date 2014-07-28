@@ -89,11 +89,18 @@ function init() {
     cPreview = $('#canvas-preview').get(0);
     ctxPreview = cPreview.getContext('2d');
 
+
+
+
+
     cStage = $('#canvas-stage').get(0);
     ctxStage = cStage.getContext('2d');
     $('input#render-size-x')
         .val(cStage.width)
-        .change(function () {cStage.width = this.value});
+        .change(function () {
+            cStage.width = this.value;
+            cStage.style.left = ((contentW - cStage.width) / 2)  + 'px'
+        });
 
     $('input#render-size-y')
         .val(cStage.height)
@@ -101,6 +108,9 @@ function init() {
 
     $('input#render-show-border')
         .change(function () {cStage.style.border = this.value ? 'solid' : 'none'});
+
+
+
 
     DW.wordList.forEach(function (word) {
 
