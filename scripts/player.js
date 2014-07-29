@@ -243,8 +243,11 @@ function init() {
         TweenMax.to($(this).find('.highlight'), .34, {opacity: 0, ease: Sine.easeOut});
     });
 
-    $('#mic').click(function () {useSettings('mic')});
     $('#play').click(function () {useSettings(playlist[playlistIdx])});
+    $('#mic')
+        .click(function () {useSettings('mic')})
+        .mouseenter(function () {$('#mic ._tooltip').css({opacity: 1, top: -54})})
+        .mouseleave(function () {$('#mic ._tooltip').css({opacity: 0, top: -51})});
 
     $('#btn-left').click(function () {
 
@@ -285,6 +288,8 @@ function init() {
                 return;
             }
 
+            isSeeking = true;
+
             onSeek(e);
 
             $(window).on('mousemove', onSeek);
@@ -293,12 +298,10 @@ function init() {
 
         function onSeek(e) {
 
-            isSeeking = true;
-
             progress = (e.pageX - bcr.left) / bcr.width;
             progress = Math.max(0, Math.min(1, progress));
             $('#progressbar-state').css('width', (progress*100)+'%');
-            console.log('onSeek', e.pageX, progress,bcr)
+            console.log('onSeek', e.pageX, progress, progress,bcr)
         }
 
         function onSeekOff(e) {
@@ -892,7 +895,8 @@ function animPlayProgress() {
         window.requestAnimationFrame(animPlayProgress);
     }
     else if (progress >= 1) {
-        useSettings(playlist[(++playlistIdx) % playlist.length])
+        progress = 1;
+        useSettings(playlist[(++playlistIdx) % playlist.length]);
     }
 
     if (!currLoadingTrack) {

@@ -34,6 +34,16 @@ html, body{
     right: 0px;
 }
 
+#mic ._tooltip {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    top: -51px;
+    transition-property: opacity, top;
+    transition-duration: 0.31s;
+    transition-timing-function: ease-out;
+}
+
 #play {
     height: 63px;
 }
