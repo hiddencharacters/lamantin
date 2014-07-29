@@ -247,7 +247,7 @@ function init() {
     $('#mic')
         .click(function () {useSettings('mic')})
         .mouseenter(function () {$('#mic ._tooltip').css({opacity: 1, top: -54})})
-        .mouseleave(function () {$('#mic ._tooltip').css({opacity: 0, top: -51})});
+        .mouseleave(function () {$('#mic ._tooltip').css({opacity: 0, top: -50})});
 
     $('#btn-left').click(function () {
 
