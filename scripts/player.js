@@ -323,7 +323,7 @@ function init() {
 
     (function () {
 
-        var cheat = 's', str = '';
+        var cheat = 'set', str = '';
 
         $(window).keypress(function (e) {
 
