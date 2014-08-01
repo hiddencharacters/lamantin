@@ -39,9 +39,9 @@ html, body{
     opacity: 0;
     pointer-events: none;
     top: -50px;
-    transition-property: opacity, top;
+    /*transition-property: opacity, top;
     transition-duration: 0.31s;
-    transition-timing-function: ease-out;
+    transition-timing-function: ease-out;*/
 }
 
 #play {

@@ -1106,12 +1106,12 @@ function showOldBrowserWarning() {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(255,255,255, .7)',
+            backgroundColor: 'rgba(255,255,255, 1)',
             opacity: 0
         })
         .appendTo('body')
         .click(function () {
-            TweenMax.to($cont, .36, {autoAlpha: 0})
+            window.open('www.google.com/intl/hu_HU/chrome/browser/')
         });
 
     var $msg = $('<img>')
