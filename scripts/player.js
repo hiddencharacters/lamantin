@@ -1107,11 +1107,11 @@ function showOldBrowserWarning() {
             width: '100%',
             height: '100%',
             backgroundColor: 'rgba(255,255,255, 1)',
-            opacity: 0
+            opacity: 1
         })
         .appendTo('body')
         .click(function () {
-            window.open('www.google.com/intl/hu_HU/chrome/browser/')
+            window.open('http://www.google.com/intl/hu_HU/chrome/browser/')
         });
 
     var $msg = $('<img>')
@@ -1127,5 +1127,5 @@ function showOldBrowserWarning() {
         })
         .appendTo($cont);
 
-    TweenMax.to($cont, .36, {autoAlpha: 1})
+    // TweenMax.to($cont, .36, {autoAlpha: 1})
 }
