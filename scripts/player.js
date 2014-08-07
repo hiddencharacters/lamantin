@@ -237,10 +237,10 @@ function init() {
     }
 
     $('.control').mouseenter(function () {
-        TweenMax.to($(this).find('.highlight'), .34, {opacity: 1, ease: Sine.easeOut});
+        TweenMax.to($(this).find('.highlight'), 0, {opacity: 1, ease: Sine.easeOut});
     });
     $('.control').mouseleave(function () {
-        TweenMax.to($(this).find('.highlight'), .34, {opacity: 0, ease: Sine.easeOut});
+        TweenMax.to($(this).find('.highlight'), 0, {opacity: 0, ease: Sine.easeOut});
     });
 
     $('#play').click(function () {useSettings(playlist[playlistIdx])});
@@ -467,13 +467,13 @@ function micMode() {
 
     playStop();
 
-    TweenMax.to('#mic .active', .34, {opacity: 1, ease: Sine.easeOut});
-    TweenMax.to('#play .active', .34, {opacity: 0, ease: Sine.easeOut});
-    TweenMax.to('#progressbar-state', .34, {backgroundColor: '#a6b3c2', ease: Sine.easeOut});
+    TweenMax.to('#mic .active', 0, {opacity: 1, ease: Sine.easeOut});
+    TweenMax.to('#play .active', 0, {opacity: 0, ease: Sine.easeOut});
+    TweenMax.to('#progressbar-state', 0, {backgroundColor: '#a6b3c2', ease: Sine.easeOut});
     $('#controls-cont .btn').off('mouseenter', onOverControlBtn);
     $('#controls-cont .btn').off('mouseleave', onOutControlBtn);
     tlPlayTitle.pause();
-    TweenMax.to('#text-track, #text-time', .34, {opacity: 0, ease: Sine.easeOut});
+    TweenMax.to('#text-track, #text-time', 0, {opacity: 0, ease: Sine.easeOut});
 
     mode = 'mic';
     console.log('start mic')
@@ -520,11 +520,11 @@ function playMode() {
 
     micStop();
 
-    TweenMax.to('#mic .active', .34, {opacity: 0, ease: Sine.easeOut});
-    TweenMax.to('#play .active', .34, {opacity: 1, ease: Sine.easeOut});
-    TweenMax.to('#progressbar-state', .34, {backgroundColor: '#000000', ease: Sine.easeOut});
+    TweenMax.to('#mic .active', 0, {opacity: 0, ease: Sine.easeOut});
+    TweenMax.to('#play .active', 0, {opacity: 1, ease: Sine.easeOut});
+    TweenMax.to('#progressbar-state', 0, {backgroundColor: '#000000', ease: Sine.easeOut});
     tlPlayTitle.resume();
-    TweenMax.to('#text-track, #text-time', .34, {opacity: 1, ease: Sine.easeOut});
+    TweenMax.to('#text-track, #text-time', 0, {opacity: 1, ease: Sine.easeOut});
 
     mode = 'play';
 
@@ -545,10 +545,10 @@ function playStop() {
 }
 
 function onOverControlBtn() {
-    TweenMax.to($(this).find('.over'), .34, {opacity: 1, ease: Sine.easeOut});
+    TweenMax.to($(this).find('.over'), 0, {opacity: 1, ease: Sine.easeOut});
 }
 function onOutControlBtn() {
-    TweenMax.to($(this).find('.over'), .34, {opacity: 0, ease: Sine.easeOut});
+    TweenMax.to($(this).find('.over'), 0, {opacity: 0, ease: Sine.easeOut});
 }
 
 function getSettings(id) {
